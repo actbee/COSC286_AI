@@ -12,38 +12,19 @@ class CSP_Model:
        self.variables = variables
        self.domains = domains
        self.neighbors = neighbors
-       # store the assignment to the problem
-       self.assignment = []
-
 
        # to decide whether those heuristic methods are used in the search part
        self.select_method = "default"
        self.order_method = "default"
        self.inference_method = "default"
 
-       # we should map the values in variable(string) to the ints
-       self.variable_stoi = {}
-       number = 0
-       for variable in self.variables:
-           self.variable_stoi[variable] = number
-           number += 1
-
-       # we should map the values in the domain(string) to the ints
-       self.domain_stoi = {}
-       number = 1
-       for variable in self.variables:
-           for value in self.domains[variable]:
-               # if we have not this value into our mapper
-               if value not in self.domain_stoi.keys():
-                   self.domain_stoi[value] = number
-                   number += 1
-       # we can also map the values in from ints to domain(string)
-       self.domain_itos = { v:k for k,v in self.domain_stoi.items()}
+       # store the assignment to the problem
+       self.assignment = []
        # establish a table to store the possible domains for each variable
        self.domain_remain = {}
        # build a domain_remain stack to store the history
        self.domain_remain_stack = []
-       self.clean()
+
 
 
     # use this method to recover some varialbes in the class into the initial status
@@ -54,14 +35,14 @@ class CSP_Model:
         self.assignment = []
         for i in range(0, len(self.variables)):
             self.assignment.append(-1)
+
         # domain_remain saves values as ints
         self.domain_remain = {}
-        for i in range(0, len(self.variables)):
-            variable = self.variables[i]
+        for variable in range(0, len(self.variables)):
             add_list = []
             for value in self.domains[variable]:
-                add_list.append(self.domain_stoi[value])
-            self.domain_remain[i] = add_list
+                add_list.append(value)
+            self.domain_remain[variable] = add_list
         # just in case
         self.domain_remain_stack = []
 
@@ -95,13 +76,7 @@ class CSP_Model:
         self.inference_method = inference_method
 
         result = self.Recursive_Backtracking()
-        if (result == False):
-            print("no solution found to the problem: " + self.name)
-        else:
-            print("the solution to the problem: " + self.name + " is: ")
-            for i in range(0, len(self.variables)):
-                solved_value = self.assignment[i]
-                print(self.variables[i] + " : " + self.domain_itos[solved_value])
+        self.Print_Solution(result)
 
     def Recursive_Backtracking(self):
         # first check if it needs further
@@ -136,18 +111,17 @@ class CSP_Model:
     def update_domain_remain(self, next, value):
         self.domain_remain[next] = [value]
         # need to update the neighbor's remain domains in the table
-        neighborlist = self.neighbors[self.variables[next]]
+        neighborlist = self.neighbors[next]
         remove = 0
         for neighbor in neighborlist:
-            neighbor_int = self.variable_stoi[neighbor]
             # if this neighbor has been explored before
-            if self.assignment[neighbor_int] != -1:
+            if self.assignment[neighbor] != -1:
                 continue
             # for the unexplored neighbors, check if their remaining values are legal
-            neighbor_remain = self.domain_remain[neighbor_int]
+            neighbor_remain = self.domain_remain[neighbor]
             for value in neighbor_remain:
-                if self.constraints(neighbor_int, value) == False:
-                    self.domain_remain[neighbor_int].remove(value)
+                if self.constraints(neighbor, value) == False:
+                    self.domain_remain[neighbor].remove(value)
                     remove += 1
         return remove
 
@@ -178,11 +152,10 @@ class CSP_Model:
             next_explored = unassigned[0]
             for unexplored in unassigned:
                 constraint_now = 0
-                unexplored_name = self.variables[unexplored]
                 # find all the unexplored neighbors
-                neighborlist = self.neighbors[unexplored_name]
+                neighborlist = self.neighbors[unexplored]
                 for neighbor in neighborlist:
-                    if self.variable_stoi[neighbor] in unassigned:
+                    if neighbor in unassigned:
                         constraint_now += 1
                 if constraint_now > constraint_most:
                     next_explored = unexplored
@@ -222,12 +195,10 @@ class CSP_Model:
         elif self.inference_method == "AC-3":
             arcs_queue = queue.Queue()
             # first add all the arcs to the queue
-            for variable in self.variables:
-                variable_int = self.variable_stoi[variable]
+            for variable in range(0, len(self.variables)):
                 neighborlist = self.neighbors[variable]
                 for neighbor in neighborlist:
-                    neighbor_int = self.variable_stoi[neighbor]
-                    arcs_queue.put((variable_int, neighbor_int))
+                    arcs_queue.put((variable, neighbor))
 
             while arcs_queue.empty() == False:
                 arc_out = arcs_queue.get()
@@ -240,12 +211,10 @@ class CSP_Model:
                         return False
                     # add all the arcs point to x1 to the queue
                     # first find all neighbors of x1
-                    x1_name = self.variables[x1]
-                    neighborlist = self.neighbors[x1_name]
+                    neighborlist = self.neighbors[x1]
                     # then add these arcs to the queue
                     for neighbor in neighborlist:
-                        neighbor_int = self.variable_stoi[neighbor]
-                        arcs_queue.put((neighbor_int, x1))
+                        arcs_queue.put((neighbor, x1))
 
             return True
 
@@ -266,25 +235,34 @@ class CSP_Model:
 
         return changed
 
+    # based on the specific problem this can be overwrote
+    def Print_Solution(self, result):
+        if (result == False):
+            print("no solution found to the problem: " + self.name)
+        else:
+            print("the solution to the problem: " + self.name + " is: ")
+            for i in range(0, len(self.variables)):
+                solved_value = self.assignment[i]
+                print(self.variables[i] + " : " + f"{solved_value}")
+
+
 
 # test part
 if __name__ == "__main__" :
     variables = ["WA", "NT", "SA", "QL", "NSW", "V", "T"]
     domains = {}
-    for variable in variables:
-        domains[variable] = ["red", "green", "blue"]
+    for variable in range(0, len(variables)):
+        domains[variable] = [1, 2, 3]
     neighbors ={}
-    neighbors["WA"] = ["NT", "SA"]
-    neighbors["NT"] = ["WA", "SA", "QL"]
-    neighbors["SA"] = ["WA", "NT", "QL", "NSW", "V"]
-    neighbors["QL"] = ["NT", "SA", "NSW"]
-    neighbors["NSW"] = ["QL", "SA", "V"]
-    neighbors["V"] = ["SA", "NSW"]
-    neighbors["T"] = []
+    neighbors[0] = [1, 2]
+    neighbors[1] = [0, 2, 3]
+    neighbors[2] = [0, 1, 3, 4, 5]
+    neighbors[3] = [1, 2, 4]
+    neighbors[4] = [3, 2, 5]
+    neighbors[5] = [2, 4]
+    neighbors[6] = []
 
     test_model = CSP_Model(variables, domains, neighbors )
-    print(test_model.domain_stoi)
-    print(test_model.domain_remain)
     print(test_model.variables)
     test_model.BackTracking_Search("degree heuristic", "LCV", "AC-3")
 
