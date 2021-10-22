@@ -74,7 +74,7 @@ def astar_search(search_problem, heuristic_fn):
         # get the successor states
         for next_state in search_problem.get_successors(current_state):
             # use node to save the successor states
-            child_node = AstarNode(next_state, heuristic_fn(current_state), current_node,
+            child_node = AstarNode(next_state, heuristic_fn(next_state), current_node,
                                    visited_cost[tuple(current_state)] + search_problem.get_distance(current_state, next_state))
             child_state = child_node.state
 

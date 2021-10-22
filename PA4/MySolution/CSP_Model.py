@@ -69,12 +69,13 @@ class CSP_Model:
     def BackTracking_Search(self,
                             select_method = "default",
                             order_method = "default",
-                            inference_method = "default"):
+                            inference_method = "default") -> object:
         self.clean()
         self.select_method = select_method
         self.order_method = order_method
         self.inference_method = inference_method
-
+        print("we use the select mthode: "+ select_method + ", the order method: "
+              + order_method + ", and the inference method: " + inference_method)
         result = self.Recursive_Backtracking()
         self.Print_Solution(result)
 
@@ -234,6 +235,7 @@ class CSP_Model:
                 changed = True
 
         return changed
+
 
     # based on the specific problem this can be overwrote
     def Print_Solution(self, result):

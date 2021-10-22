@@ -3,6 +3,7 @@
 
 from CSP_Model import CSP_Model
 import copy
+import time
 
 class circuit_board_layout(CSP_Model):
     def __init__(self, variables, domains, neighbors = {}):
@@ -45,12 +46,12 @@ class circuit_board_layout(CSP_Model):
                     other = self.variable_ttoi[other_variable]
                     self.neighbors[mykey].append(other)
 
-    # to transfer the coordinate to the index
+    # to convert the coordinate to the index
     def cor_to_index(self, x, y):
         index = self.width * y + x
         return index
 
-    # to transfer the index to the coordinate
+    # to convert the index to the coordinate
     def index_to_cor(self, index):
         x = index % self.width
         y = int((index - x)/self.width)
@@ -140,7 +141,7 @@ class circuit_board_layout(CSP_Model):
                 print("\n")
 
 
-# test part
+# test part, you can change to your more complex tasks
 if __name__ == "__main__" :
     variables = []
     a = ("aaa",
@@ -160,5 +161,15 @@ if __name__ == "__main__" :
              "..........")
     domains = board
     test_model = circuit_board_layout(variables, domains)
-    test_model.BackTracking_Search("MRV", "LCV","AC-3")
+
+    start_time = time.time()
+    # test_model.BackTracking_Search("MRV", "LCV","AC-3")
     test_model.BackTracking_Search()
+    print("running time: %s seconds" % (time.time() - start_time))
+    for i in range(0, 30):
+        for j in range(0, 30):
+            if i in test_model.domains[0] and j in test_model.domains[1]:
+             if test_model.pair_constraint(0, i, 1, j):
+                print(test_model.index_to_cor(i), end = "")
+                print(",", end = "")
+                print(test_model.index_to_cor(j), end = " | ")

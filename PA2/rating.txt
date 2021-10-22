@@ -1,0 +1,22 @@
+
+-0.05 Incorrect goal test.
+Goal test should not be bound to the robot's turn.
+
+-0.1 (Multi-robot's heuristic has a bug.)
+Manhattan distance in this case should be the sum of each absolute difference between robot’s location and goal’s location.
+
+
+(-0.1) Incorrect initialization of an AStarNode. A node's heuristic should be based on that new node's state, not its parent's state.
+Should change heuristic_fn(current_state) to heuristic_fn(next_state).
+
+Though heapifying can increase time complexity -- worst case about O(n log n) where n is the number of elements in the heap. Marking allows for no heapify and you simply ignore the nodes that do not need to be explored.
+
+
+Too many if/else statement blocks. Different 'options' can be stored into an array and looped through. Or use a different more intuitive method.
+
+grading comment
+− 0.1 pts
+-0.2 (Too many if/else statement blocks. Different 'options' can be stored into an array and looped through. Or use a different more intuitive method.)
+Specifically, the repetitive similar if/else blocks in the get_successors function for the MazeworldProblem, as well as the SensorlessProblem.
+
+Would have made more sense to keep the while loop in astar_search function going until the pqueue was empty (while pqueue: do something). It's a bad coding style to keep while loops to 1 or True.
