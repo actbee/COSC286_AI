@@ -8,6 +8,7 @@ from SAT import SAT
 
 class SudokuSAT(SAT) :
     def __init__ (self, filename):
+        # there are in total 729 possible variables in a sudoku problem
         self.variables_num = 729
         # our variable index runs from 1 and skip 0, each variable has 1 and -1 two values
         self.assignment = [0, ]

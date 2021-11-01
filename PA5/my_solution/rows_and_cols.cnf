@@ -1,9 +1,3 @@
-# Author: Xuedan ZOU
-# Date: 10/26/2021
-# ensure that all cells have a value
-# every row has nine unique values and
-# so does every column
-
 111 112 113 114 115 116 117 118 119
 -111 -112 
 -111 -113 

@@ -43,7 +43,7 @@ class SAT:
 
         return clause_true
 
-
+    # see if the current assignment is true to our cnf
     def judge_end(self):
            # all clauses should be true
            clause_true = self.clause_satisfy()

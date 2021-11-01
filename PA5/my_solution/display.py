@@ -13,4 +13,4 @@ def display_sudoku_solution(filename):
     print(test_sudoku)
 
 if __name__ == "__main__":
-    display_sudoku_solution(sys.argv[1])
+    display_sudoku_solution("puzzle_bonus.sol")
