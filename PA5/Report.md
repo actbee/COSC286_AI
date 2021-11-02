@@ -187,3 +187,74 @@ Solution:
 
 We do count the satisfied clauses for each time of iteration when running WalkSAT and notice that with more times of iteration, the number of satisfied clauses in general is imporving (but with a relatively slow pace).
 
+
+
+### C. Bonus
+
+In the original WalkSAT algorithm we consider all of the variables in sudoku as real variables and flip any of the varibles that are satisified with specific condition. However, for the sudoku problem we have already known the values of some variables in the very beginning. We may improve the speed of our WalkSAT by treating those first given constant cells as real constants rather than variables. 
+
+As a result, we maintain a list of **constant** with the initial given constant cells' indexs with their symbols. For our sudoku problem, the symbols are always positive. Then before we implement the steps of WalkSAT, we first put the values(1 or -1) of constant in the assignment:
+
+~~~
+   for i in range(1, self.variables_num + 1):
+                if i in self.constant:
+                    self.assignment[i] = 1
+                elif -1 * i in self.constant:
+                    self.assignment[i] = -1
+~~~
+
+Then, we shouldn't change the assignment of those constant values anymore. Each time we pick a variable and want to flip it, we should check if that variable is really a variable or a constant:
+
+~~~
+                # choose that flip value from the random picked clause
+                random_flip_value = random.choice(pick_clause)
+
+                # if we would consider the constant values
+                if has_constant == True:
+                   # we cannot flip the constants, so pick again
+                   while random_flip_value in self.constant or -1 * random_flip_value in self.constant:
+                       random_flip_value = random.choice(pick_clause)
+
+                self.assignment[abs(random_flip_value)] *= -1
+~~~
+
+Finally, in the scoring process, we should ignore those constants by scoring them with -1:
+
+~~~
+                flip_count = {}
+                for value in pick_clause:
+
+                    # if we would consider the constant values
+                    if has_constant == True:
+                        # we cannot flip the constants, so ignore them
+                        if value in self.constant or -1 * value in self.constant:
+                            flip_count[value] = -1
+                            continue
+
+                    i = abs(value)
+                    self.assignment[i] *= -1
+                    flip_count[i] = self.clause_satisfy()
+                    self.assignment[i] *= -1
+~~~
+
+Now our WalkSAT consider given constants as real constants and we test our WalkSAT with and without considering constants. To better observe the relationship between the most satisfied clauses and the iteration times, we store a list to memorize the number of most satisfied clauses (in the scoring step) during the iteration. We then use **matplotlib** to draw the result out.
+
+
+
+For puzzle1, if we considered the constants, it will take about 9513 times of iteration to get the solution by a given random seed.
+
+![graph](images/Figure_1.pdf)
+
+Tested with the same given random seed, it will take about 12733 times of iteration without considering the constants (with the same h and max_iterate values).
+
+![graph2](images/Figure_2.pdf)
+
+For puzzle1, if we considered the constants, it will take about 5993 times of iteration to get the solution by a given random seed.
+
+![graph3](images/Figure_3.pdf)
+
+Similarly, without considering the constants and anything else the same, it will take about 9199 times of iteration, much longer time.
+
+![graph4](images/Figure_4.pdf)
+
+As a result, we can primarily confirm that considering the constants can effectively improve the speed of our WalkSAT algorithm (by reducing the needed iteration times).

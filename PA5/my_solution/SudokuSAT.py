@@ -34,6 +34,16 @@ class SudokuSAT(SAT) :
 
         self.unsatisfied = []
 
+        # used to save the given known values as constants
+        self.constant = []
+        for clause in self.cnf:
+            if len(clause) == 1:
+                self.constant.append(abs(clause[0]))
+
+        # used to save the number of most satisfied clauses in the scoring process
+        self.satisfied_history = []
+
+
     # convert the str value like 111 to the variable value like 1
     def converter_stoi(self, in_str):
         # convert this str to int value
@@ -65,7 +75,7 @@ class SudokuSAT(SAT) :
 # test
 if __name__ == "__main__":
     solver = SudokuSAT("puzzle1.cnf")
-    print(len(solver.cnf))
+    print(solver.constant)
     result = solver.WalkSAT(0.7, 100000)
     if result == True:
         print(solver.assignment)

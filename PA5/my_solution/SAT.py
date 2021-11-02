@@ -4,7 +4,7 @@
 import random
 
 class SAT:
-    def __init__ (self, variables_num, cnf):
+    def __init__ (self, variables_num, cnf, constant):
        # normally we still count index from 1
        self.variables_num = variables_num
        self.assignment = [0, ]
@@ -16,8 +16,15 @@ class SAT:
             else:
                self.assignment.append(-1)
        self.cnf =  cnf
-       # use to save the clauses that are unsatisfied during the SAT process
+       # used to save the clauses that are unsatisfied during the SAT process
        self.unsatisfied = []
+
+       # used to save the given known values together with whether it is positive or negative
+       self.constant = constant
+
+       # used to save the number of most satisfied clauses in the scoring process
+       self.satisfied_history = []
+
 
     # count how many clause are true given the assignment
     def clause_satisfy(self):
@@ -99,7 +106,16 @@ class SAT:
 
         return found
 
-    def WalkSAT(self, h, max_times):
+    def WalkSAT(self, h, max_times, has_constant = False):
+
+        # if we would consider the constants, then change their assignments to given value
+        if has_constant == True:
+            for i in range(1, self.variables_num + 1):
+                if i in self.constant:
+                    self.assignment[i] = 1
+                elif -1 * i in self.constant:
+                    self.assignment[i] = -1
+
         count_time = 0
         self.unsatisfied = []
         found = False
@@ -117,10 +133,26 @@ class SAT:
             if random_pick > h:
                 # choose that flip value from the random picked clause
                 random_flip_value = random.choice(pick_clause)
+
+                # if we would consider the constant values
+                if has_constant == True:
+                   # we cannot flip the constants, so pick again
+                   while random_flip_value in self.constant or -1 * random_flip_value in self.constant:
+                       random_flip_value = random.choice(pick_clause)
+
                 self.assignment[abs(random_flip_value)] *= -1
+
             else:
                 flip_count = {}
                 for value in pick_clause:
+
+                    # if we would consider the constant values
+                    if has_constant == True:
+                        # we cannot flip the constants, so ignore them
+                        if value in self.constant or -1 * value in self.constant:
+                            flip_count[value] = -1
+                            continue
+
                     i = abs(value)
                     self.assignment[i] *= -1
                     flip_count[i] = self.clause_satisfy()
@@ -135,6 +167,9 @@ class SAT:
                         most_list.append(i[0])
                     else:
                         break
+
+                # update the satisfied history
+                self.satisfied_history.append(most_value)
 
                 random_flip = random.choice(most_list)
                 self.assignment[random_flip] *= -1

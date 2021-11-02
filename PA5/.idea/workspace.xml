@@ -3,17 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="1f42950f-7099-46df-8248-b7f984f2ec0c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Report.md" beforeDir="false" afterPath="$PROJECT_DIR$/Report.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Report.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/Report.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_solution/SAT.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_solution/SAT.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_solution/SudokuSAT.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_solution/SudokuSAT.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_solution/all_cells.cnf" beforeDir="false" afterPath="$PROJECT_DIR$/my_solution/all_cells.cnf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_solution/display.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_solution/display.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_solution/one_cell.cnf" beforeDir="false" afterPath="$PROJECT_DIR$/my_solution/one_cell.cnf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_solution/puzzle_bonus.cnf" beforeDir="false" afterPath="$PROJECT_DIR$/my_solution/puzzle_bonus.cnf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_solution/rows.cnf" beforeDir="false" afterPath="$PROJECT_DIR$/my_solution/rows.cnf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_solution/rows_and_cols.cnf" beforeDir="false" afterPath="$PROJECT_DIR$/my_solution/rows_and_cols.cnf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_solution/rules.cnf" beforeDir="false" afterPath="$PROJECT_DIR$/my_solution/rules.cnf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/my_solution/solve_sudoku.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_solution/solve_sudoku.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/my_solution/sudoku2cnf.py" beforeDir="false" afterPath="$PROJECT_DIR$/my_solution/sudoku2cnf.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,7 +43,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Python.sudoku2cnf (1)">
+  <component name="RunManager" selected="Python.solve_sudoku">
     <configuration name="SAT" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="PA5" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -186,10 +180,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.sudoku2cnf (1)" />
         <item itemvalue="Python.solve_sudoku" />
-        <item itemvalue="Python.display (1)" />
         <item itemvalue="Python.SudokuSAT" />
+        <item itemvalue="Python.sudoku2cnf (1)" />
+        <item itemvalue="Python.display (1)" />
         <item itemvalue="Python.SAT" />
       </list>
     </recent_temporary>
