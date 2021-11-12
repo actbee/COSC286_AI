@@ -63,7 +63,8 @@ class Maze:
 
         self.width = len(lines[0])
         self.height = len(lines)
-        self.mode = 0
+        # "R" represents for the robot
+        self.mode = -1
 
         # save the sequence to the map
         self.map = list("".join(lines))
@@ -106,6 +107,8 @@ class Maze:
 
         return False
 
+    def get_color(self, x, y):
+        return self.map[self.index(x, y)]
 
     # function called only by __str__ that takes the map and the
     #  robot state, and generates a list of characters in order

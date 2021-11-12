@@ -17,26 +17,28 @@ SIZE = 4
 # the list presents the probabilities of colors in the
 # generated map, with the order of red, green, blue and
 # yellow. The sum of these values should be 1.
-rgby_distrucution = [0.3, 0.2, 0.2, 0.3]
+rgby_distrucution = [0.25, 0.25, 0.25, 0.25]
 color_list = ["r", "g", "b", "y"]
 
 # change here to change the file to write in
-f = open("maze1.maz", "w")
+f = open("maze2.maz", "w")
 
 for i in range(0, SIZE):
     for j in range(0, SIZE):
       obstacle = random.randint(0, NOWALL_RATE)
       if (obstacle == 0):
         f.write("#")
+
       else:
         color_chance = random.random()
         sum = 0
-        for i in range(0, 4):
-            sum += rgby_distrucution[i]
+        for k in range(0, 4):
+            sum += rgby_distrucution[k]
             if color_chance <= sum :
-                f.write(color_list[i])
+                f.write(color_list[k])
                 break
 
     if i < SIZE - 1:
       f.write("\n")
+
 f.close()
