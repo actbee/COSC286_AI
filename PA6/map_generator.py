@@ -10,8 +10,8 @@ import random
 
 # change here to set the wall number and the map size
 # the higher the nowall_rate, the fewer walls would the map have
-NOWALL_RATE = 10
-SIZE = 4
+NOWALL_RATE = 5
+SIZE = 6
 
 # change the rate of different colors
 # the list presents the probabilities of colors in the
@@ -21,7 +21,7 @@ rgby_distrucution = [0.25, 0.25, 0.25, 0.25]
 color_list = ["r", "g", "b", "y"]
 
 # change here to change the file to write in
-f = open("maze2.maz", "w")
+f = open("maze3.maz", "w")
 
 for i in range(0, SIZE):
     for j in range(0, SIZE):
