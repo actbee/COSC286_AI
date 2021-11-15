@@ -30,6 +30,9 @@ class HMM:
         # to each of the location
         for x1 in range(0, self.maze.width):
             for y1 in range(0, self.maze.height):
+               # if this location is the wall, the probablity should be still 0
+               if self.maze.is_floor(x1, y1) == False:
+                   continue
                # check its nearby locations
                for key in self.movelist.keys():
                    x0 = x1 - self.movelist[key][0]
